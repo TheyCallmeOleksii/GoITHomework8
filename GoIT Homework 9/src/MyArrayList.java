@@ -1,12 +1,13 @@
-public class MyArrayList {
+public class MyArrayList<E> {
     private Object[] array;
     private int size;
+
     public MyArrayList() {
         array = new Object[10];
         size = 0;
     }
 
-    public void add(Object value) {
+    public void add(E value) {
         if (size == array.length) {
             Object[] newArray = new Object[array.length * 2];
             for (int i = 0; i < array.length; i++) {
@@ -14,7 +15,6 @@ public class MyArrayList {
             }
             array = newArray;
         }
-
         array[size] = value;
         size++;
     }
@@ -23,7 +23,6 @@ public class MyArrayList {
         for (int i = index; i < size - 1; i++) {
             array[i] = array[i + 1];
         }
-
         array[size - 1] = null;
         size--;
     }
@@ -37,7 +36,8 @@ public class MyArrayList {
         return size;
     }
 
-    public Object get(int index) {
-        return array[index];
+    @SuppressWarnings("unchecked")
+    public E get(int index) {
+        return (E) array[index];
     }
 }

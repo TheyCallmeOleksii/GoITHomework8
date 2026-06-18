@@ -1,20 +1,20 @@
-public class MyLinkedList {
+public class MyLinkedList<E> {
     private Node head;
     private Node tail;
     private int size;
+
     private class Node {
-        Object value;
+        E value;
         Node next;
         Node prev;
 
-        public Node(Object value) {
+        public Node(E value) {
             this.value = value;
         }
     }
 
-    public void add(Object value) {
+    public void add(E value) {
         Node newNode = new Node(value);
-
         if (head == null) {
             head = newNode;
             tail = newNode;
@@ -26,19 +26,30 @@ public class MyLinkedList {
         size++;
     }
 
-    public Object get(int index) {
-        Node current = head;
-        for (int i = 0; i < index; i++) {
-            current = current.next;
+    private Node getNode(int index) {
+        if (index < size / 2) {
+            // Шукаємо з початку
+            Node current = head;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+            return current;
+        } else {
+            Node current = tail;
+            for (int i = size - 1; i > index; i--) {
+                current = current.prev;
+            }
+            return current;
         }
-        return current.value;
+    }
+
+    public E get(int index) {
+        return getNode(index).value;
     }
 
     public void remove(int index) {
-        Node current = head;
-        for (int i = 0; i < index; i++) {
-            current = current.next;
-        }
+        Node current = getNode(index);
+
         if (current.prev != null) {
             current.prev.next = current.next;
         } else {
